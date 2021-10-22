@@ -1,7 +1,11 @@
 {
+  "name": "kirin",
+  "version": "0.0.1",
   "license": "Apache-2.0",
   "description": "A Paper Typesetting Editor",
   "scripts": {
+    "prebuild": "yarn --cwd './client'",
+    "build": "yarn --cwd './client' build",
     "format": "yarn prettier --write .",
     "prepare": "husky install"
   },
