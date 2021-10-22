@@ -1,5 +1,6 @@
 {
   "license": "Apache-2.0",
+  "description": "A Paper Typesetting Editor",
   "scripts": {
     "format": "yarn prettier --write .",
     "prepare": "husky install"
