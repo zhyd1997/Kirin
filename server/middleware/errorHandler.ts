@@ -10,6 +10,8 @@ const errorHandler = (err, req, res, next) => {
   // Log to console for dev
   console.error(err.message);
 
+  let message;
+
   switch (err.name) {
     // Mongoose bad ObjectId
     case "CastError":
@@ -26,9 +28,10 @@ const errorHandler = (err, req, res, next) => {
 
     // Mongoose validation error
     case "ValidationError":
-      const message = Object.values(err.errors)
-        .map((val) => val.message)
+      message = Object.values(err.errors)
+        .map((val: any) => val.message)
         .join(", ");
+
       error = new ErrorResponse(message, 400);
       break;
 
