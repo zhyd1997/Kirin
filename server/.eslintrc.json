@@ -2,7 +2,8 @@
   "env": {
     "node": true,
     "commonjs": true,
-    "es2021": true
+    "es2021": true,
+    "jest": true
   },
   "extends": [
     "eslint:recommended",
@@ -22,7 +23,17 @@
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
     "@typescript-eslint/no-var-requires": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never",
+        "imports": "always-multiline",
+        "objects": "always-multiline"
+      }
+    ]
   },
   "settings": {
     "import/resolver": {
