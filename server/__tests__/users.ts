@@ -1,5 +1,5 @@
-const db = require("../db");
 const request = require("supertest");
+const db = require("../db");
 const app = require("../app");
 
 const AUTH_URI = "/api/v1/auth";
