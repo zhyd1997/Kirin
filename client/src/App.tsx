@@ -1,5 +1,13 @@
 import React from "react";
 
+import { Home } from "@/components/Home";
+
+import { ProvideAuth } from "./hooks";
+
 export function App() {
-  return <div>Kirin</div>;
+  return (
+    <ProvideAuth>
+      <Home />
+    </ProvideAuth>
+  );
 }
