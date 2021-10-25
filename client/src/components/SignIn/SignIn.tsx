@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-import { useAuth } from "@/hooks";
+import { useAuth } from "@/hooks/useAuth";
 import { SignInReqBody } from "@/types";
 
 export const SignIn = () => {

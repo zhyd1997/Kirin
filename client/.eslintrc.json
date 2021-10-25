@@ -72,7 +72,9 @@
           "**/*.spec.ts",
           "**/*.test.ts",
           "**/*.spec.tsx",
-          "**/*.test.tsx"
+          "**/*.test.tsx",
+          "src/mocks/handlers.ts",
+          "src/mocks/browser.ts"
         ]
       }
     ]
