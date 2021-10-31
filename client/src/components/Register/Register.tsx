@@ -1,10 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 import { useAuth } from "@/hooks/useAuth";
-import { SignUpReqBody } from "@/types";
+import type { SignUpReqBody } from "@/types";
 
-export const SignUp = () => {
+export const Register = () => {
+  const history = useHistory();
+
   const auth = useAuth();
 
   const {
@@ -15,7 +18,9 @@ export const SignUp = () => {
   } = useForm<SignUpReqBody>();
 
   function handleSignUp(reqBody: SignUpReqBody): void {
-    auth.signup(reqBody);
+    auth.signup(reqBody, () => {
+      history.replace("/login");
+    });
     if (errors.username || errors.email || errors.password) {
       clearErrors();
     }

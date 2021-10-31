@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, ReactNode, useContext, useState } from "react";
 
 import { baseUrl } from "@/baseUrl";
-import { SignInReqBody, SignUpReqBody } from "@/types";
+import type { SignInReqBody, SignUpReqBody } from "@/types";
 
 interface StoreType {
   token: string;
@@ -13,9 +13,9 @@ interface ProvideAuthInterface {
   token: StoreType;
   response: string;
   tips: string;
-  signin: (reqBody: SignInReqBody) => void;
-  signup: (reqBody: SignUpReqBody) => void;
-  signout: () => void;
+  signin: (reqBody: SignInReqBody, cb: () => void) => void;
+  signup: (reqBody: SignUpReqBody, cb: () => void) => void;
+  signout: (cb: () => void) => void;
 }
 
 const authContext = createContext<ProvideAuthInterface>(
@@ -35,7 +35,7 @@ function useProvideAuth() {
   const [response, setResponse] = useState<string>("");
   const [tips, setTips] = useState<string>("tips");
 
-  const signin = (reqBody: SignInReqBody) => {
+  const signin = (reqBody: SignInReqBody, cb: () => void) => {
     fetch(`${baseUrl}/api/v1/auth/login`, {
       method: "POST",
       headers: {
@@ -58,6 +58,7 @@ function useProvideAuth() {
           setIsAuthenticated(true);
           setToken({ token: result.token });
           setUser(result.username);
+          cb();
         } else {
           setResponse(result.error);
           setTips("tips error");
@@ -70,7 +71,7 @@ function useProvideAuth() {
     });
   };
 
-  const signup = (reqBody: SignUpReqBody) => {
+  const signup = (reqBody: SignUpReqBody, cb: () => void) => {
     fetch(`${baseUrl}/api/v1/auth/register`, {
       method: "POST",
       headers: {
@@ -83,6 +84,7 @@ function useProvideAuth() {
           setResponse("SignUp successfully!");
           setTips("tips success");
           setTimeout(() => setTips("tips-fade"), 3000);
+          cb();
         } else {
           setResponse(result.error);
           setTips("tips error");
@@ -92,7 +94,7 @@ function useProvideAuth() {
     });
   };
 
-  const signout = () => {
+  const signout = (cb: () => void) => {
     const TOKEN = `Bearer ${token.token}`;
     fetch(`${baseUrl}/api/v1/auth/logout`, {
       method: "GET",
@@ -107,6 +109,7 @@ function useProvideAuth() {
       setIsAuthenticated(false);
       setToken({ token: "" });
       setUser(null);
+      cb();
     });
   };
 
@@ -124,7 +127,7 @@ function useProvideAuth() {
 
 export const useAuth = () => useContext(authContext);
 
-export function ProvideAuth({ children }: any) {
+export function ProvideAuth({ children }: { children: ReactNode }) {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }

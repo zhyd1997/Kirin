@@ -1,7 +1,7 @@
 import { rest } from "msw";
 
 import { baseUrl } from "@/baseUrl";
-import { SignInReqBody } from "@/types";
+import type { SignInReqBody } from "@/types";
 
 export const handlers = [
   rest.post(`${baseUrl}/api/v1/auth/register`, (req, res, ctx) =>

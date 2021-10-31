@@ -1,10 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 import { useAuth } from "@/hooks/useAuth";
-import { SignInReqBody } from "@/types";
+import type { SignInReqBody } from "@/types";
 
-export const SignIn = () => {
+export const Login = () => {
+  const history = useHistory();
   const auth = useAuth();
 
   const {
@@ -15,7 +17,9 @@ export const SignIn = () => {
   } = useForm<SignInReqBody>();
 
   function handleLogIn(reqBody: SignInReqBody): void {
-    auth.signin(reqBody);
+    auth.signin(reqBody, () => {
+      history.replace("/editor");
+    });
     if (errors.email || errors.password) {
       clearErrors();
     }
@@ -41,6 +45,10 @@ export const SignIn = () => {
       </form>
       <button type="button" onClick={handleSubmit(handleLogIn)}>
         SignIn
+      </button>
+      no account?&nbsp;
+      <button type="button" onClick={() => history.replace("/register")}>
+        Register
       </button>
     </div>
   );
