@@ -1,7 +1,11 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ForkTsCheckerWebpackPluginv = require("fork-ts-checker-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const createStyledComponentsTransformer =
+  require("typescript-plugin-styled-components").default;
+
+const styledComponentsTransformer = createStyledComponentsTransformer();
 
 module.exports = {
   context: __dirname,
@@ -11,7 +15,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public/index.html"),
     }),
-    new ForkTsCheckerWebpackPluginv({
+    new ForkTsCheckerWebpackPlugin({
       eslint: {
         files: "./src/**/*.{ts,tsx,js,jsx}", // required - same as command `eslint ./src/**/*.{ts,tsx,js,jsx} --ext .ts,.tsx,.js,.jsx`
       },
@@ -35,11 +39,10 @@ module.exports = {
         loader: "ts-loader",
         options: {
           transpileOnly: true,
+          getCustomTransformers: () => ({
+            before: [styledComponentsTransformer],
+          }),
         },
-      },
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
       },
     ],
   },
