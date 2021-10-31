@@ -32,16 +32,22 @@ export const Login = () => {
         <input
           type="email"
           id="emailForSignin"
-          {...register("email", { required: true })}
+          {...register("email", {
+            required: true,
+            pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+          })}
         />
-        {errors.email && <p>Email is required!</p>}
+        {errors.email?.type === "required" && <p>Email is required!</p>}
+        {errors.email?.type === "pattern" && <p>Invalid Email Address</p>}
         <label htmlFor="passwordForSignin">password</label>
         <input
           type="password"
           id="passwordForSignin"
-          {...register("password", { required: true })}
+          placeholder="min length is 8"
+          {...register("password", { required: true, minLength: 8 })}
         />
-        {errors.password && <p>Password is required!</p>}
+        {errors.password?.type === "required" && <p>Password is required!</p>}
+        {errors.password?.type === "minLength" && <p>Password is too short!</p>}
       </form>
       <button type="button" onClick={handleSubmit(handleLogIn)}>
         SignIn
