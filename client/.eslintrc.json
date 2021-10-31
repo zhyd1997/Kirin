@@ -61,7 +61,23 @@
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     // diable default import
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
+    // except test files
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "src/setupTests.ts",
+          "**/*.spec.ts",
+          "**/*.test.ts",
+          "**/*.spec.tsx",
+          "**/*.test.tsx",
+          "src/mocks/handlers.ts",
+          "src/mocks/browser.ts"
+        ]
+      }
+    ]
   },
   "settings": {
     "import/resolver": {
