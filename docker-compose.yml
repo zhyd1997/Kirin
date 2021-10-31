@@ -1,0 +1,45 @@
+version: "3.7"
+services:
+  frontend:
+    build: client
+    ports:
+      - 8080:8080
+    stdin_open: true
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+    container_name: frontend
+    restart: always
+    networks:
+      - react-express
+    depends_on:
+      - backend
+
+  backend:
+    container_name: backend
+    restart: always
+    build: server
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mongo
+    networks:
+      - express-mongo
+      - react-express
+    ports:
+      - 3000:3000
+
+  mongo:
+    container_name: mongo
+    restart: always
+    image: mongo:4.2.0
+    volumes:
+      - ./data:/data/db
+    networks:
+      - express-mongo
+    expose:
+      - 27017
+networks:
+  react-express:
+  express-mongo:
